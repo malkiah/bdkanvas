@@ -1,0 +1,207 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  height: 30px;
+}
+
+html, body, canvas {
+}
+
+.fulldiv
+{
+  display: table;
+}
+
+.controlline
+{
+  display: table-row;
+  height: 30px;
+}
+
+.tabnameline {
+  display: table-row;
+  height: 30px;
+}
+
+.tabcontrolline {
+  display: table-row;
+}
+
+.controls
+{
+  display: table-cell;
+}
+
+.controls img {
+  height: 22px;
+}
+
+.tabnamediv {
+  display: table-cell;
+}
+
+.tabcontroldiv {
+  display: table-cell;
+  border-top: white solid 1px;
+  border-left: black solid 1px;
+  border-right: black solid 1px;
+  border-bottom: black solid 1px;
+  background-color: white;
+}
+
+.canvasline
+{
+  display: table-row;
+}
+#canvasdiv
+{
+  display: table-cell;
+}
+
+#canvas
+{
+}
+
+.bkdialogdiv
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 10;
+}
+
+.dialogdiv
+{
+  position: absolute;
+  background-color: white;
+  z-index: 11;
+  opacity: 1;
+}
+
+.titleBar
+{
+  width: 100%;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.contentDiv
+{
+  width: 100%;
+}
+
+.btnDiv
+{
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+}
+
+.dialogImgs
+{
+  float: right;
+}
+
+.dialogBtn
+{
+  padding: 2px;
+}
+
+.pdialog_tablediv
+{
+  display: table;
+  width: 100%;
+}
+
+.pdialog_rowdiv
+{
+  display: table-row;
+}
+
+.pdialog_celldiv
+{
+  display: table-cell;
+}
+
+.tabname_notselected{
+  border-top: black solid 1px;
+  border-left: black solid 1px;
+  border-right: black solid 1px;
+  border-bottom: black solid 1px;
+  background-color: lightgrey;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.tabname_selected{
+  border-top: black solid 1px;
+  border-left: black solid 1px;
+  border-right: black solid 1px;
+  border-bottom: white solid 1px;
+  background-color: white;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.tabdiv{
+  display: table;
+}
+
+.tablinediv{
+  display: table-row;
+}
+
+.tabsectiondiv{
+  display: table-cell;
+  padding: 2px;
+}
+
+.sectiontabtable {
+  display: table;
+}
+
+.sectiontabrow {
+  display: table-row;
+}
+
+.sectiontabcell_r {
+  display: table-cell;
+  padding: 2px;
+  border: 2px solid lightgray;
+  border-left: 0;
+}
+
+.sectiontabcell_l {
+  display: table-cell;
+  padding: 2px;
+  border: 2px solid lightgray;
+  border-right: 0;
+}
+
+.sectiontabrange {
+  width: 50px;
+}
+
+.sectiontabrangebtn {
+  width: 22px;
+  height: 22px;
+}
+
+.sectiontabrangetxt {
+  width: 40px;
+  text-align: center;
+}
+
+.sectiontablastcolor {
+  width: 20px;
+  border: 0;
+}

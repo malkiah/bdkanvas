@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BDKanvas - The interactive multiuser canvas.</title>
+    <link rel="stylesheet" href="css/bdkanvas.css" charset="utf-8">
+    <script src="js/OffsetController.js" charset="utf-8"></script>
+    <script src="js/StateMachine.js" charset="utf-8"></script>
+    <script src="js/StateMachineUI.js" charset="utf-8"></script>
+    <script src="js/StateMachineKanvas.js" charset="utf-8"></script>
+    <script src="js/UIManager.js" charset="utf-8"></script>
+    <script src="js/UIWindowTab.js" charset="utf-8"></script>
+    <script src="js/Point.js" charset="utf-8"></script>
+    <script src="js/CanvasController.js" charset="utf-8"></script>
+    <script src="js/StateMachineBDKanvasClient.js" charset="utf-8"></script>
+    <script src="js/BDKanvasClient.js" charset="utf-8"></script>
+    <script src="js/Action.js" charset="utf-8"></script>
+    <script src="js/ActionStack.js" charset="utf-8"></script>
+    <script src="js/ActionCommitBrush.js" charset="utf-8"></script>
+    <script src="js/ActionCommitLine.js" charset="utf-8"></script>
+    <script src="js/ActionCommitImage.js" charset="utf-8"></script>
+    <script src="js/ActionChangeConfig.js" charset="utf-8"></script>
+    <script src="js/ActionCommitMoveDrawables.js" charset="utf-8"></script>
+    <script src="js/ActionDeleteDrawables.js" charset="utf-8"></script>
+    <script src="js/ActionPasteDrawables.js" charset="utf-8"></script>
+    <script src="js/ActionCommitScaleSelection.js" charset="utf-8"></script>
+    <script src="js/ActionChangeDrawablesProperty.js" charset="utf-8"></script>
+    <script src="js/BDKanvas.js" charset="utf-8"></script>
+    <script src="js/Utils.js" charset="utf-8"></script>
+    <script src="js/UIElement.js" charset="utf-8"></script>
+    <script src="js/UILine.js" charset="utf-8"></script>
+    <script src="js/UIRect.js" charset="utf-8"></script>
+    <script src="js/BDKDrawable.js" charset="utf-8"></script>
+    <script src="js/BDKBrush.js" charset="utf-8"></script>
+    <script src="js/BDKLine.js" charset="utf-8"></script>
+    <script src="js/BDKImage.js" charset="utf-8"></script>
+    <script src="js/BDKSelection.js" charset="utf-8"></script>
+    <script src="js/BDKSelectionRect.js" charset="utf-8"></script>
+    <script src="js/UIDialog.js" charset="utf-8"></script>
+    <script src="js/Property.js" charset="utf-8"></script>
+    <script src="js/PropertyBundle.js" charset="utf-8"></script>
+    <script src="js/PropertyColor.js" charset="utf-8"></script>
+    <script src="js/PropertyLastColors.js" charset="utf-8"></script>
+    <script src="js/PropertyRange.js" charset="utf-8"></script>
+    <script src="js/PropertyDialog.js" charset="utf-8"></script>
+    <script src="js/PropertyBoolean.js" charset="utf-8"></script>
+    <script src="js/PropertyText.js" charset="utf-8"></script>
+    <script src="js/PropertyPass.js" charset="utf-8"></script>
+    <script src="js/UIPropertySectionTab.js" charset="utf-8"></script>
+    <script src="js/BDKSelectionTabManager.js" charset="utf-8"></script>
+    <script src="js/BDKlipboard.js" charset="utf-8"></script>
+    <!--<script src="js/BrushDialog.js" charset="utf-8"></script>-->
+    <script src="js/ConfigDialog.js" charset="utf-8"></script>
+    <script src="js/ConnectDialog.js" charset="utf-8"></script>
+    <script src="js/SaveDialog.js" charset="utf-8"></script>
+    <script src="js/LoadDialog.js" charset="utf-8"></script>
+    <script src="js/InsertImageDialog.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="fulldiv">
+      <!--<div class="controlline">
+        <div id="controls" class="controls">
+        </div>
+      </div>-->
+      <div id="tabnameline" class="tabnameline">
+        <div id="tabnamediv" class="tabnamediv">
+        </div>
+      </div>
+      <div id="tabcontrolline" class="tabcontrolline">
+        <div id="tabcontroldiv" class="tabcontroldiv">
+        </div>
+      </div>
+      <div class="canvasline">
+        <div id="canvasdiv">
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var bdkanvas = new BDKanvas();
+      var uim = new UIManager("canvasdiv","canvas", "tabnamediv", "tabcontroldiv", bdkanvas);
+    </script>
+  </body>
+</html>
