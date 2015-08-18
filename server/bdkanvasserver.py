@@ -19,7 +19,7 @@ class BDKanvasServer(object):
         validatorclass = self.settings.get('Validator','VALIDATOR_TYPE')
         klass = globals()[validatorclass]
         self.validator = klass()
-        self.log = open('server.log','w')
+        self.log = open('server.log','w',0)
 
     def logMessage(self, message):
         msg = time.asctime() + " - " + message
