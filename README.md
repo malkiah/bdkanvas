@@ -20,3 +20,11 @@ BDKanvas provides:
 - The canvas can be saved to the local computer to be loaded later
 
 Check more information at: http://projects.bardok.net/bdkanvas/
+
+(c) 2015 Jorge García Ochoa de Aspuru
+
+bardok@gmail.com
+
+@bardok
+
+This project is covered by GPLv3 license.
