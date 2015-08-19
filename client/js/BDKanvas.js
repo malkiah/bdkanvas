@@ -854,8 +854,8 @@ class BDKanvas extends CanvasController
     var zoom = this.configuration.zoom;
     if (zoom > 1)
     {
-      this.setConfigValue("zoom", zoom -1);
       var innerP = this.canvasToInnerPoint(new Point(x,y));
+      this.setConfigValue("zoom", zoom -1);
       var innerM = this.canvasToInnerPoint(new Point(this.canvas.width/2,this.canvas.height/2));
       var scrollX = innerP.x - innerM.x;
       var scrollY = innerP.y - innerM.y;
@@ -1120,6 +1120,7 @@ class BDKanvas extends CanvasController
 
   zoomFitWidth(){
     this.setConfigValue("zoom", Math.ceil(this.getMaxZoom()));
+    this.scrollX = 0;
   }
 
   yZoomIn(){
@@ -1156,7 +1157,7 @@ class BDKanvas extends CanvasController
       this.connectionTabBundle.properties["username"].setDisabled(dstate);
       this.connectionTabBundle.properties["password"].setDisabled(dstate);
       this.connectionTabBundle.properties["others"].setDisabled(dstate);
-      //this.connectionTabBundle.properties["protect"].setDisabled(dstate);      
+      //this.connectionTabBundle.properties["protect"].setDisabled(dstate);
     }
   }
 
