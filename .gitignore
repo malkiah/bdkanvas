@@ -1,1 +1,3 @@
 /server/BDKanvas.db
+/server/*.pyc
+/server/server.log
