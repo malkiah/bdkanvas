@@ -39,6 +39,7 @@ var SMKV_EVENT_PASTEBTN = "SMKV_EVENT_PASTEBTN";
 var SMKV_EVENT_LINEBTN = "SMKV_EVENT_LINEBTN";
 var SMKV_EVENT_ZOOMFITWIDTHBTN = "SMKV_EVENT_ZOOMFITWIDTHBTN";
 var SMKV_EVENT_YZOOMINBTN = "SMKV_EVENT_YZOOMINBTN";
+var SMKV_EVENT_ABOUTBTN = "SMKV_EVENT_ABOUTBTN";
 
 class StateMachineKanvas extends StateMachine
 {
@@ -66,7 +67,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_DRAWING_BRUSH: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endDrawingBrush,
@@ -90,7 +92,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_BRUSHBTN: StateMachineKanvas.brushTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_DRAWING_LINE: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endDrawingLine,
@@ -114,7 +117,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_MOVING: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endMoving,
@@ -138,7 +142,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_VIEW_ZOOMING_OUT: {
         CC_EVENT_POINTERDOWN: StateMachineKanvas.zoomOut,
@@ -158,7 +163,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_VIEW_SELECTINGRECT: {
         CC_EVENT_POINTERDOWN: StateMachineKanvas.selectRectTestPoint,
@@ -186,7 +192,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       },
       SMKV_STATE_SELECTINGRECT: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endRectSelection,
@@ -222,7 +229,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
-        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
       }
     };
   }
@@ -481,5 +489,9 @@ class StateMachineKanvas extends StateMachine
 
   static yZoomInTool(sm, data) {
     BDKanvasInstance.yZoomIn();
+  }
+
+  static aboutDialog(sm, data) {
+    BDKanvasInstance.aboutDialog.show();
   }
 }

@@ -38,12 +38,10 @@ class BDKanvas extends CanvasController
   {
     super.init(canvas, context);
     this.setTools();
-    //this.brushDialog = new BrushDialog("Brush tool", 480, 320, UID_MODE_DIALOG);
-    //this.configDialog = new ConfigDialog("Configure canvas", 480, 320, UID_MODE_DIALOG);
-    //this.connectDialog = new ConnectDialog("Configure connection", 480, 320, UID_MODE_DIALOG);
     this.saveDialog = new SaveDialog("Save current canvas", 480, 320, UID_MODE_DIALOG);
     this.loadDialog = new LoadDialog("Load canvas", 480, 320, UID_MODE_DIALOG);
     this.insertImageDialog = new InsertImageDialog("Insert image", 480, 320, UID_MODE_DIALOG);
+    this.aboutDialog = new AboutDialog("About DBKanvas", 480, 320, UID_MODE_DIALOG);
     this.createGeneralTab();
     this.createSelectionTab();
     this.createBrushTab();
@@ -176,10 +174,6 @@ class BDKanvas extends CanvasController
     this.generalTab.addControl("saveload","save",this.saveBtn);
     this.generalTab.addControl("saveload","load",this.loadBtn);
 
-    //this.generalTab.addSection("configuration");
-    //this.generalTab.addControl("configuration","config",this.configBtn);
-    //this.generalTab.addControl("configuration","connect",this.connectBtn);
-
     this.generalTab.addSection("ccp");
     this.generalTab.addControl("ccp","copy",this.copyBtn);
     this.generalTab.addControl("ccp","cut",this.cutBtn);
@@ -209,6 +203,9 @@ class BDKanvas extends CanvasController
     this.generalTab.addControl("lineCtrl","xNext",this.xNextBtn);
     this.generalTab.addControl("lineCtrl","xEnd",this.xEndBtn);
     this.generalTab.addControl("lineCtrl","keyEnter",this.keyEnterBtn);
+
+    this.generalTab.addSection("info");
+    this.generalTab.addControl("info","about",this.aboutBtn);
   }
 
   createConnectionTab(){
@@ -249,21 +246,16 @@ class BDKanvas extends CanvasController
   setTools()
   {
     this.addSaveLoadButtons();
-    //this.addSeparator();
-    //this.addConfigButton();
     this.addConnectButton();
-    //this.addSeparator();
     this.addBrushButton();
     this.addInsertImageButton();
     this.addMoveButton();
     this.addSelectButton();
-    //this.addSeparator();
     this.addZoomButtons();
-    //this.addSeparator();
     this.addMovementButtons();
-    //this.addSeparator();
     this.addUndoRedoButtons();
     this.addCopyCutPasteButtons();
+    this.addInfoButtons();
   }
 
   redraw() {
@@ -350,9 +342,19 @@ class BDKanvas extends CanvasController
 
     this.undoBtn.addEventListener("click",this.undoBtnFunc);
     this.redoBtn.addEventListener("click",this.redoBtnFunc);
+  }
 
-    //this.kcontrolsdiv.appendChild(this.undoBtn);
-    //this.kcontrolsdiv.appendChild(this.redoBtn);
+  addInfoButtons(){
+    let obj = this;
+    this.aboutBtn = document.createElement("button");
+
+    this.aboutBtn.innerHTML = "<img src='img/help-about.svg' />";
+
+    this.aboutBtnFunc = function(e){
+      obj.processEvent(SMKV_EVENT_ABOUTBTN, null);
+    };
+
+    this.aboutBtn.addEventListener("click",this.aboutBtnFunc);
   }
 
   addSaveLoadButtons(){
