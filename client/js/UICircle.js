@@ -67,8 +67,8 @@ class UICircle extends UIElement {
 
     for (var i = 0; i < UICIRCLE_NUM_POINTS; i++) {
       var p = new Point(
-        this.radius * Math.cos(2 * Math.PI * i / UICIRCLE_NUM_POINTS),
-        this.radius * Math.sin(2 * Math.PI * i / UICIRCLE_NUM_POINTS)
+        this.x + this.radius * Math.cos(2 * Math.PI * i / UICIRCLE_NUM_POINTS),
+        this.y + this.radius * Math.sin(2 * Math.PI * i / UICIRCLE_NUM_POINTS)
       );
       result.push(p);
     }
