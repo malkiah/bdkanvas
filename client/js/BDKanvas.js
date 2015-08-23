@@ -46,6 +46,7 @@ class BDKanvas extends CanvasController
     this.createSelectionTab();
     this.createBrushTab();
     this.createLineTab();
+    this.createCircleTab();
     this.createConnectionTab();
     this.createConfigTab();
 
@@ -76,7 +77,7 @@ class BDKanvas extends CanvasController
     this.configTabBundle.createProperty("PropertyBoolean", {name: "viewLines", desc: "View lines", defaultVal: this.configuration.viewLines});
     this.configTabBundle.createProperty("PropertyLastColors", {name: "lastbkcolors", desc: "Last background colors", linkedTo: "backgroundColor"});
     this.configTabBundle.createProperty("PropertyRange", {name: "zoom", desc: "Zoom", min: 1, max: 100, step: 1, defaultVal: this.configuration.zoom});
-    this.configTabBundle.createProperty("PropertyRange", {name: "lineGap", desc: "Line gap", min: 100, max: 1000, step: 100, defaultVal: this.configuration.lineGap});
+    this.configTabBundle.createProperty("PropertyRange", {name: "lineGap", desc: "Line gap", min: 100, max: 2000, step: 100, defaultVal: this.configuration.lineGap});
     this.configTabBundle.createProperty("PropertyRange", {name: "columnNumber", desc: "Columns", min: 10, max: 100, step: 1, defaultVal: this.configuration.columnNumber});
 
     this.configTabSection = new UIPropertySectionTab(this.configTabBundle, 2);
@@ -130,7 +131,7 @@ class BDKanvas extends CanvasController
   createBrushTab(){
     this.brushTabBundle = new PropertyBundle();
     this.brushTabBundle.createProperty("PropertyColor", {name: "linecolor", desc: "Line color", defaultVal: "#000000"});
-    this.brushTabBundle.createProperty("PropertyRange", {name: "linewidth", desc: "Line width", min: 0, max: 10, step: 1, defaultVal: 2});
+    this.brushTabBundle.createProperty("PropertyRange", {name: "linewidth", desc: "Line width", min: 1, max: 10, step: 1, defaultVal: 2});
     this.brushTabBundle.createProperty("PropertyBoolean", {name: "filled", desc: "Filled", defaultVal: false});
     this.brushTabBundle.createProperty("PropertyColor", {name: "fillcolor", desc: "Fill color", defaultVal: "#000000"});
     this.brushTabBundle.createProperty("PropertyLastColors", {name: "lastcolors", desc: "Last colors", linkedTo: "linecolor"});
@@ -145,10 +146,27 @@ class BDKanvas extends CanvasController
     this.brushTab.addControl("brush","brushcontrols",this.brushTabSection.getDiv());
   }
 
+  createCircleTab(){
+    this.circleTabBundle = new PropertyBundle();
+    this.circleTabBundle.createProperty("PropertyColor", {name: "linecolor", desc: "Line color", defaultVal: "#000000"});
+    this.circleTabBundle.createProperty("PropertyColor", {name: "fillcolor", desc: "Fill color", defaultVal: "#000000"});
+    this.circleTabBundle.createProperty("PropertyRange", {name: "linewidth", desc: "Line width", min: 1, max: 10, step: 1, defaultVal: 2});
+    this.circleTabBundle.createProperty("PropertyBoolean", {name: "filled", desc: "Filled", defaultVal: false});
+    this.circleTabBundle.createProperty("PropertyLastColors", {name: "lastcolors", desc: "Last colors", linkedTo: "linecolor"});
+    this.circleTabBundle.createProperty("PropertyLastColors", {name: "lastfillcolors", desc: "Last fill", linkedTo: "fillcolor"});
+    this.circleTabBundle.createProperty("PropertyBoolean", {name: "dashed", desc: "Dashed line", defaultVal: false});
+
+    this.circleTabSection = new UIPropertySectionTab(this.circleTabBundle, 2);
+
+    this.circleTab = new UIWindowTab("circleTab", "Circle");
+    this.circleTab.addSection("circle");
+    this.circleTab.addControl("circle","circlecontrols",this.circleTabSection.getDiv());
+  }
+
   createLineTab(){
     this.lineTabBundle = new PropertyBundle();
     this.lineTabBundle.createProperty("PropertyColor", {name: "linecolor", desc: "Line color", defaultVal: "#000000"});
-    this.lineTabBundle.createProperty("PropertyRange", {name: "linewidth", desc: "Line width", min: 0, max: 10, step: 1, defaultVal: 2});
+    this.lineTabBundle.createProperty("PropertyRange", {name: "linewidth", desc: "Line width", min: 1, max: 10, step: 1, defaultVal: 2});
     this.lineTabBundle.createProperty("PropertyBoolean", {name: "arrowini", desc: "Initial arrow", defaultVal: false});
     this.lineTabBundle.createProperty("PropertyLastColors", {name: "lastcolors", desc: "Last colors", linkedTo: "linecolor"});
     this.lineTabBundle.createProperty("PropertyBoolean", {name: "dashed", desc: "Dashed line", defaultVal: false});
@@ -182,6 +200,7 @@ class BDKanvas extends CanvasController
     this.generalTab.addSection("tools");
     this.generalTab.addControl("tools","brush",this.brushBtn);
     this.generalTab.addControl("tools","line",this.lineBtn);
+    this.generalTab.addControl("tools","circle",this.circleBtn);
     this.generalTab.addControl("tools","insertImg",this.insertImgBtn);
     this.generalTab.addControl("tools","move",this.moveBtn);
     this.generalTab.addControl("tools","editSelect",this.editSelectBtn);
@@ -390,37 +409,17 @@ class BDKanvas extends CanvasController
     };
 
     this.insertImgBtn.addEventListener("click",this.insertImgBtnFunc);
-
-    //this.kcontrolsdiv.appendChild(this.saveBtn);
-    //this.kcontrolsdiv.appendChild(this.loadBtn);
   }
-
-  /*addSeparator()
-  {
-    //this.kcontrolsdiv.appendChild(document.createTextNode("  "));
-  }*/
-
-  /*addConfigButton() {
-    let obj = this;
-    this.configBtn = document.createElement("button");
-    this.configBtn.innerHTML = "<img src='img/applications-system.svg' />";
-
-    this.configDialogFunc = function(e)
-    {
-      obj.processEvent(SMKV_EVENT_CONFIGBTN, null);
-    };
-
-    this.configBtn.addEventListener("click",this.configDialogFunc);
-    //this.kcontrolsdiv.appendChild(this.configBtn);
-  }*/
 
   addBrushButton() {
     let obj = this;
     this.brushBtn = document.createElement("button");
     this.lineBtn = document.createElement("button");
+    this.circleBtn = document.createElement("button");
 
     this.brushBtn.innerHTML = "<img src='img/draw-brush.svg' />";
     this.lineBtn.innerHTML = "<img src='img/draw-line.svg' />";
+    this.circleBtn.innerHTML = "<img src='img/draw-circle.svg' />";
 
     this.brushBtnFunc = function(e)
     {
@@ -430,10 +429,14 @@ class BDKanvas extends CanvasController
     {
       obj.processEvent(SMKV_EVENT_LINEBTN, null);
     };
+    this.circleBtnFunc = function(e)
+    {
+      obj.processEvent(SMKV_EVENT_CIRCLEBTN, null);
+    };
 
     this.brushBtn.addEventListener("click",this.brushBtnFunc);
     this.lineBtn.addEventListener("click",this.lineBtnFunc);
-    //this.kcontrolsdiv.appendChild(this.brushBtn);
+    this.circleBtn.addEventListener("click",this.circleBtnFunc);
   }
 
   addCopyCutPasteButtons(){
@@ -495,9 +498,6 @@ class BDKanvas extends CanvasController
     this.selectRectBtn.addEventListener("click",this.selectRectFunc);
     this.selectDelBtn.addEventListener("click",this.selectDelFunc);
     this.editSelectBtn.addEventListener("click",this.editSelectFunc);
-
-    //this.kcontrolsdiv.appendChild(this.selectRectBtn);
-    //this.kcontrolsdiv.appendChild(this.selectDelBtn);
   }
 
   addConnectButton() {
@@ -518,7 +518,6 @@ class BDKanvas extends CanvasController
 
     this.connectBtn.addEventListener("click",this.connectDialogFunc);
     this.disconnectBtn.addEventListener("click",this.disconnectDialogFunc);
-    //this.kcontrolsdiv.appendChild(this.connectBtn);
   }
 
   addMoveButton() {
@@ -532,7 +531,6 @@ class BDKanvas extends CanvasController
     };
 
     this.moveBtn.addEventListener("click",this.moveBtnFunc);
-    //this.kcontrolsdiv.appendChild(this.moveBtn);
   }
 
   addZoomButtons() {
@@ -626,12 +624,6 @@ class BDKanvas extends CanvasController
     this.xNextBtn.addEventListener("click",this.xNextBtnFunc);
     this.xEndBtn.addEventListener("click",this.xEndBtnFunc);
     this.keyEnterBtn.addEventListener("click",this.keyEnterBtnFunc);
-
-    /*this.kcontrolsdiv.appendChild(this.xIniBtn);
-    this.kcontrolsdiv.appendChild(this.xPrevBtn);
-    this.kcontrolsdiv.appendChild(this.xNextBtn);
-    this.kcontrolsdiv.appendChild(this.xEndBtn);
-    this.kcontrolsdiv.appendChild(this.keyEnterBtn);*/
   }
 
   drawLog() {
@@ -675,6 +667,21 @@ class BDKanvas extends CanvasController
       this.drawables[line.uuid] = line;
       line.setPoints(p,p);
       this.current = line;
+      result = true;
+    }
+    return result;
+  }
+
+  beginDrawingCircle(x, y) {
+    var result = false;
+    if ((x > 0) && (y > 0))
+    {
+      var p = this.canvasToInnerPoint(new Point(x, y));
+      this.offset = new OffsetController(p.x,p.y,0,0);
+      var circle = new BDKCircle(this.context, null);
+      this.drawables[circle.uuid] = circle;
+      circle.setCenter(p);
+      this.current = circle;
       result = true;
     }
     return result;
@@ -724,6 +731,19 @@ class BDKanvas extends CanvasController
     }
   }
 
+  setCircleRadiusPoint(x, y) {
+    if ((x > 0) && (y > 0))
+    {
+      if (this.current instanceof BDKCircle)
+      {
+        var p = this.canvasToInnerPoint(new Point(x,y));
+        this.offset.moveTo(p.x, p.y);
+        var r = this.offset.getLength();
+        this.current.setRadius(r);
+      }
+    }
+  }
+
   endDrawingBrush() {
     var c = this.current;
     this.setCurrent(null);
@@ -735,6 +755,13 @@ class BDKanvas extends CanvasController
     var c = this.current;
     this.setCurrent(null);
     var action = new ActionCommitLine(c, true, null);
+    action.performAction();
+  }
+
+  endDrawingCircle() {
+    var c = this.current;
+    this.setCurrent(null);
+    var action = new ActionCommitCircle(c, true, null);
     action.performAction();
   }
 
@@ -770,7 +797,19 @@ class BDKanvas extends CanvasController
     return result;
   }
 
+  buttonModeCircle() {
+    this.circleBtn.style.background = "gray";
+    this.brushBtn.style.background = null;
+    this.lineBtn.style.background = null;
+    this.moveBtn.style.background = null;
+    this.zoomOutBtn.style.background = null;
+    this.zoomInBtn.style.background = null;
+    this.selectRectBtn.style.background = null;
+    this.editSelectBtn.style.background = null;
+  }
+
   buttonModeBrush() {
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = "gray";
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = null;
@@ -781,6 +820,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeLine() {
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = "gray";
     this.moveBtn.style.background = null;
@@ -791,6 +831,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeMoving() {
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = "gray";
@@ -801,6 +842,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeZoomIn() {
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = null;
@@ -811,6 +853,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeZoomOut() {
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = null;
@@ -821,6 +864,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeSelectRect(){
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = null;
@@ -831,6 +875,7 @@ class BDKanvas extends CanvasController
   }
 
   buttonModeEditSelect(){
+    this.circleBtn.style.background = null;
     this.brushBtn.style.background = null;
     this.lineBtn.style.background = null;
     this.moveBtn.style.background = null;
@@ -993,7 +1038,6 @@ class BDKanvas extends CanvasController
     this.actionCommitMoveDrawables.setFinalPosition(new Point(
       this.selection.geometry.x, this.selection.geometry.y
     ));
-    //var fpos = this.offset.getFinalPos();
     this.actionCommitMoveDrawables.setFinalPosition(new Point(
       this.selection.geometry.x, this.selection.geometry.y
     ));
@@ -1023,42 +1067,56 @@ class BDKanvas extends CanvasController
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   tabModeZoomIn(){
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   tabModeBrush(){
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.addTab(this.brushTab);
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   tabModeLine(){
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.addTab(this.lineTab);
+    UIManagerInstance.removeTab("circleTab");
+  }
+
+  tabModeCircle(){
+    UIManagerInstance.removeTab("selectionTab");
+    UIManagerInstance.removeTab("brushTab");
+    UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.addTab(this.circleTab);
   }
 
   tabModeZoomOut(){
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   tabModeSelectRect(){
     UIManagerInstance.addTab(this.selectionTab);
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   tabModeEditSelect(){
     UIManagerInstance.removeTab("selectionTab");
     UIManagerInstance.removeTab("brushTab");
     UIManagerInstance.removeTab("lineTab");
+    UIManagerInstance.removeTab("circleTab");
   }
 
   copy(e){
@@ -1159,7 +1217,6 @@ class BDKanvas extends CanvasController
       this.connectionTabBundle.properties["username"].setDisabled(dstate);
       this.connectionTabBundle.properties["password"].setDisabled(dstate);
       this.connectionTabBundle.properties["others"].setDisabled(dstate);
-      //this.connectionTabBundle.properties["protect"].setDisabled(dstate);
     }
   }
 

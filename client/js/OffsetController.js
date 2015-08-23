@@ -66,4 +66,8 @@ class OffsetController {
       this.y + (point.y - this.y)/(this.lastHeight - this.dy)*this.lastHeight
     );
   }
+
+  getLength(point){
+    return Math.sqrt(this.width * this.width + this.height * this.height);
+  }
 }

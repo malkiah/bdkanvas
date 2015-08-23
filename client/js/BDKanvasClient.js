@@ -80,6 +80,11 @@ class BDKanvasClient
         var action = new ActionCommitLine(line, false, data.actionUUID);
         action.performAction();
         break;
+      case 'drawcircle':
+        var circle = new BDKCircle(BDKanvasInstance.context, data.circleData);
+        var action = new ActionCommitCircle(circle, false, data.actionUUID);
+        action.performAction();
+        break;
       case 'changeConfig':
         var action = new ActionChangeConfig(data.oldConfig, data.newConfig, false, data.actionUUID);
         action.performAction();
@@ -162,6 +167,21 @@ class BDKanvasClient
     this.ws.send(JSON.stringify(msg));
   }
 
+  sendCircle(id, actUUID) {
+    let obj = this;
+    var circleData = BDKanvas.getInstance().getDrawable(id).serialize();
+    var msg = {
+      type: 'sync',
+      cid: obj.cid,
+      sid: obj.sid,
+      actionType: 'drawcircle',
+      circleData: circleData,
+      actionUUID: actUUID
+    };
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
   sendConfig(oldConfig, newConfig, actionUUID) {
     let obj = this;
     var msg = {
@@ -184,6 +204,9 @@ class BDKanvasClient
         break;
       case 'endDrawingLine':
         this.sendLine(data.uuid, data.actionUUID);
+        break;
+      case 'endDrawingCircle':
+        this.sendCircle(data.uuid, data.actionUUID);
         break;
       case 'changeConfig':
         this.sendConfig(data.oldConfig, data.newConfig, data.actionUUID);

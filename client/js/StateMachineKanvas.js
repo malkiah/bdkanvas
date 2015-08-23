@@ -14,6 +14,8 @@ var SMKV_STATE_MOVING_SELECTEDRECT = "SMKV_STATE_MOVING_SELECTEDRECT";
 var SMKV_STATE_SCALING_SELECTEDRECT = "SMKV_STATE_SCALING_SELECTEDRECT";
 var SMKV_STATE_VIEW_DRAWING_LINE = "SMKV_STATE_VIEW_DRAWING_LINE";
 var SMKV_STATE_DRAWING_LINE = "SMKV_STATE_DRAWING_LINE";
+var SMKV_STATE_VIEW_DRAWING_CIRCLE = "SMKV_STATE_VIEW_DRAWING_CIRCLE";
+var SMKV_STATE_DRAWING_CIRCLE = "SMKV_STATE_DRAWING_CIRCLE";
 
 // Events
 var SMKV_EVENT_CONFIGBTN = "SMKV_EVENT_CONFIGBTN";
@@ -40,6 +42,7 @@ var SMKV_EVENT_LINEBTN = "SMKV_EVENT_LINEBTN";
 var SMKV_EVENT_ZOOMFITWIDTHBTN = "SMKV_EVENT_ZOOMFITWIDTHBTN";
 var SMKV_EVENT_YZOOMINBTN = "SMKV_EVENT_YZOOMINBTN";
 var SMKV_EVENT_ABOUTBTN = "SMKV_EVENT_ABOUTBTN";
+var SMKV_EVENT_CIRCLEBTN = "SMKV_EVENT_CIRCLEBTN";
 
 class StateMachineKanvas extends StateMachine
 {
@@ -68,7 +71,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_DRAWING_BRUSH: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endDrawingBrush,
@@ -93,7 +97,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_BRUSHBTN: StateMachineKanvas.brushTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_DRAWING_LINE: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endDrawingLine,
@@ -118,7 +123,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_MOVING: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endMoving,
@@ -143,7 +149,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_VIEW_ZOOMING_OUT: {
         CC_EVENT_POINTERDOWN: StateMachineKanvas.zoomOut,
@@ -164,7 +171,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_VIEW_SELECTINGRECT: {
         CC_EVENT_POINTERDOWN: StateMachineKanvas.selectRectTestPoint,
@@ -193,7 +201,8 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
       },
       SMKV_STATE_SELECTINGRECT: {
         CC_EVENT_POINTERUP: StateMachineKanvas.endRectSelection,
@@ -230,7 +239,34 @@ class StateMachineKanvas extends StateMachine
         SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool,
         SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
         SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
-        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_CIRCLEBTN: StateMachineKanvas.circleTool
+      },
+      SMKV_STATE_VIEW_DRAWING_CIRCLE: {
+        CC_EVENT_POINTERDOWN: StateMachineKanvas.beginDrawingCircle,
+        SMKV_EVENT_CONFIGBTN: StateMachineKanvas.configDialog,
+        SMKV_EVENT_CONNECTBTN: StateMachineKanvas.connectSession,
+        SMKV_EVENT_DISCONNECTBTN: StateMachineKanvas.disconnectSession,
+        SMKV_EVENT_MOVEBTN: StateMachineKanvas.moveTool,
+        SMKV_EVENT_ZOOMINBTN: StateMachineKanvas.zoomInTool,
+        SMKV_EVENT_ZOOMOUTBTN: StateMachineKanvas.zoomOutTool,
+        SMKV_EVENT_MOVEMENTBTN: StateMachineKanvas.movementButtons,
+        SMKV_EVENT_SAVEBTN: StateMachineKanvas.save,
+        SMKV_EVENT_LOADBTN: StateMachineKanvas.load,
+        SMKV_EVENT_SELECTRECTBTN: StateMachineKanvas.selectRectTool,
+        SMKV_EVENT_EDITSELECTBTN: StateMachineKanvas.editSelectTool,
+        CC_EVENT_PASTE: StateMachineKanvas.paste,
+        SMKV_EVENT_INSERTIMGBTN: StateMachineKanvas.insertImg,
+        SMKV_EVENT_PASTEBTN: StateMachineKanvas.pasteBtn,
+        SMKV_EVENT_BRUSHBTN: StateMachineKanvas.brushTool,
+        SMKV_EVENT_ZOOMFITWIDTHBTN: StateMachineKanvas.zoomFitWidthTool,
+        SMKV_EVENT_YZOOMINBTN: StateMachineKanvas.yZoomInTool,
+        SMKV_EVENT_ABOUTBTN: StateMachineKanvas.aboutDialog,
+        SMKV_EVENT_LINEBTN: StateMachineKanvas.lineTool
+      },
+      SMKV_STATE_DRAWING_CIRCLE: {
+        CC_EVENT_POINTERUP: StateMachineKanvas.endDrawingCircle,
+        CC_EVENT_POINTERMOVE: StateMachineKanvas.drawCircle,
       }
     };
   }
@@ -273,6 +309,25 @@ class StateMachineKanvas extends StateMachine
     sm.bdkanvas.setLinePoint(data.point.x,data.point.y);
   }
 
+  static beginDrawingCircle(sm, data)
+  {
+    if (sm.bdkanvas.beginDrawingCircle(data.point.x,data.point.y))
+    {
+      sm.state = SMKV_STATE_DRAWING_CIRCLE;
+    }
+  }
+
+  static endDrawingCircle(sm, data)
+  {
+    sm.state = SMKV_STATE_VIEW_DRAWING_CIRCLE;
+    sm.bdkanvas.endDrawingCircle();
+  }
+
+  static drawCircle(sm, data)
+  {
+    sm.bdkanvas.setCircleRadiusPoint(data.point.x,data.point.y);
+  }
+
   static configDialog(sm, data)
   {
     sm.bdkanvas.configDialog.show();
@@ -288,11 +343,6 @@ class StateMachineKanvas extends StateMachine
     sm.bdkanvas.disconnectSession();
   }
 
-  /*static brushDialog(sm,data)
-  {
-    sm.bdkanvas.brushDialog.show();
-  }*/
-
   static moveTool(sm, data)
   {
     sm.state = SMKV_STATE_VIEW_MOVING;
@@ -306,6 +356,14 @@ class StateMachineKanvas extends StateMachine
     sm.state = SMKV_STATE_VIEW_DRAWING_BRUSH;
     sm.bdkanvas.buttonModeBrush();
     sm.bdkanvas.tabModeBrush();
+    sm.bdkanvas.setSelection(null);
+  }
+
+  static circleTool(sm, data)
+  {
+    sm.state = SMKV_STATE_VIEW_DRAWING_CIRCLE;
+    sm.bdkanvas.buttonModeCircle();
+    sm.bdkanvas.tabModeCircle();
     sm.bdkanvas.setSelection(null);
   }
 
