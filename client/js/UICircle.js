@@ -10,9 +10,9 @@ class UICircle extends UIElement {
       this.y = 0;
       this.radius = 0;
     } else {
-      this.x = rectData.x;
-      this.y = rectData.y;
-      this.radius = rectData.radius;
+      this.x = circleData.x;
+      this.y = circleData.y;
+      this.radius = circleData.radius;
     }
   }
 

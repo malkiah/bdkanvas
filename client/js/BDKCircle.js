@@ -13,12 +13,12 @@ class BDKCircle extends BDKDrawable {
       this.fillColor = BDKanvas.getInstance().circleTabBundle.properties["fillcolor"].getValue();
     }
     else {
-      this.geometry = UIManager.getInstance().createLineElement(lineData.geometry);
-      this.color = lineData.color;
-      this.lineWidth = lineData.lineWidth;
-      this.dashed = lineData.dashed;
-      this.filled = lineData.filled;
-      this.fillColor = lineData.fillColor;
+      this.geometry = new UICircle(circleData.geometry);
+      this.color = circleData.color;
+      this.lineWidth = circleData.lineWidth;
+      this.dashed = circleData.dashed;
+      this.filled = circleData.filled;
+      this.fillColor = circleData.fillColor;
     }
     this.context = context;
   }

@@ -23,7 +23,8 @@ class BDKanvas extends CanvasController
         lineColor: "#eeeeee",
         lineTextColor: "#000000",
         lineGap: 500,
-        columnNumber: 20
+        columnNumber: 20,
+        lineWidth: 2
       };
 
       actionStackInstance.addChangeListener(this);
