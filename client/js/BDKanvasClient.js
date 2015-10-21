@@ -48,6 +48,7 @@ class BDKanvasClient
   connectionOk() {
     if (this.clientData.keep)
     {
+      docCookies.setItem('sid',this.clientData.sid, Infinity);
       docCookies.setItem('username',this.clientData.username, Infinity);
       docCookies.setItem('password',this.clientData.plainPassword, Infinity);
       docCookies.setItem('anonymous',this.clientData.anonymous, Infinity);
@@ -60,6 +61,7 @@ class BDKanvasClient
   unsetCookies() {
     if (this.clientData.keep)
     {
+      docCookies.removeItem('sid');
       docCookies.removeItem('username');
       docCookies.removeItem('password');
       docCookies.removeItem('anonymous');
@@ -72,6 +74,7 @@ class BDKanvasClient
   obtainKeepCookies() {
     if (docCookies.getItem('keep') == 'true'){
       BDKanvasInstance.setConnectionData(
+        docCookies.getItem('sid'),
         docCookies.getItem('username'),
         docCookies.getItem('password'),
         docCookies.getItem('anonymous') == 'true',

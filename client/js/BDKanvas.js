@@ -259,7 +259,8 @@ class BDKanvas extends CanvasController
     this.setDisconnectedButtons();
   }
 
-  setConnectionData(username, password, anonymous, protect, others, keep) {
+  setConnectionData(sid, username, password, anonymous, protect, others, keep) {
+    this.connectionTabBundle.properties["sid"].setValue(sid);
     this.connectionTabBundle.properties["username"].setValue(username);
     this.connectionTabBundle.properties["password"].setValue(password);
     this.connectionTabBundle.properties["anonymous"].setValue(anonymous);
