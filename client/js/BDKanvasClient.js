@@ -45,6 +45,43 @@ class BDKanvasClient
     this.ws.close();
   }
 
+  connectionOk() {
+    if (this.clientData.keep)
+    {
+      docCookies.setItem('username',this.clientData.username, Infinity);
+      docCookies.setItem('password',this.clientData.plainPassword, Infinity);
+      docCookies.setItem('anonymous',this.clientData.anonymous, Infinity);
+      docCookies.setItem('protect',this.clientData.protect, Infinity);
+      docCookies.setItem('others',this.clientData.others, Infinity);
+      docCookies.setItem('keep',this.clientData.keep, Infinity);
+    }
+  }
+
+  unsetCookies() {
+    if (this.clientData.keep)
+    {
+      docCookies.removeItem('username');
+      docCookies.removeItem('password');
+      docCookies.removeItem('anonymous');
+      docCookies.removeItem('protect');
+      docCookies.removeItem('others');
+      docCookies.removeItem('keep');
+    }
+  }
+
+  obtainKeepCookies() {
+    if (docCookies.getItem('keep') == 'true'){
+      BDKanvasInstance.setConnectionData(
+        docCookies.getItem('username'),
+        docCookies.getItem('password'),
+        docCookies.getItem('anonymous') == 'true',
+        docCookies.getItem('protect'),
+        docCookies.getItem('others') == 'true',
+        docCookies.getItem('keep') == 'true'
+      );
+    }
+  }
+
   joinSession() {
     var msg = {
       type: 'join',
@@ -54,7 +91,8 @@ class BDKanvasClient
       password: this.clientData.password,
       anonymous: this.clientData.anonymous,
       protect: this.clientData.protect,
-      others: this.clientData.others
+      others: this.clientData.others,
+      keep: this.clientData.keep
     };
     this.ws.send(JSON.stringify(msg));
   }

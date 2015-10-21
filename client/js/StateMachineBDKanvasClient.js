@@ -37,7 +37,7 @@ class StateMachineBDKanvasClient extends StateMachine
         SMC_EVENT_ERROR: StateMachineBDKanvasClient.connectError
       },
       SMC_WAIT_JOIN:{
-        SMC_EVENT_CONNECTED: StateMachineBDKanvasClient.requestSync,
+        SMC_EVENT_CONNECTED: StateMachineBDKanvasClient.connectedFunc,
         SMC_EVENT_DISCONNECTED: StateMachineBDKanvasClient.disconnected,
         SMC_EVENT_ERROR: StateMachineBDKanvasClient.connectError
       },
@@ -66,9 +66,10 @@ class StateMachineBDKanvasClient extends StateMachine
     sm.client.joinSession();
   }
 
-  static requestSync(sm, data)
+  static connectedFunc(sm, data)
   {
     sm.state = SMC_CONNECTED;
+    sm.client.connectionOk();
     BDKanvasInstance.setConnectedButtons();
     sm.client.requestSync();
   }

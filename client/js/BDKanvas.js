@@ -17,13 +17,13 @@ class BDKanvas extends CanvasController
       this.selection = null;
       this.clipboard = new BDKlipboard();
       this.configuration = {
-        backgroundColor: "#dddddd",
+        backgroundColor: "#ffffff",
         zoom: 5,
         viewLines: true,
         lineColor: "#eeeeee",
         lineTextColor: "#000000",
         lineGap: 500,
-        columnNumber: 20,
+        columnNumber: 40,
         lineWidth: 2
       };
 
@@ -58,6 +58,8 @@ class BDKanvas extends CanvasController
 
     this.buttonModeBrush();
     this.tabModeBrush();
+
+    this.client.obtainKeepCookies();
 
     setInterval(BDKanvas.timedRedraw,50,this);
   }
@@ -238,6 +240,7 @@ class BDKanvas extends CanvasController
     this.connectionTabBundle.createProperty("PropertyText", {name: "sid", desc: "Session ID", defaultVal: "test"});
     this.connectionTabBundle.createProperty("PropertyPass", {name: "password", desc: "Password", defaultVal: ""});
     this.connectionTabBundle.createProperty("PropertyBoolean", {name: "others", desc: "Allow other users", defaultVal: true});
+    this.connectionTabBundle.createProperty("PropertyBoolean", {name: "keep", desc: "Keep connection", defaultVal: false});
 
     this.connectionTabSection = new UIPropertySectionTab(this.connectionTabBundle, 2);
 
@@ -254,9 +257,16 @@ class BDKanvas extends CanvasController
     });
 
     this.setDisconnectedButtons();
-
   }
 
+  setConnectionData(username, password, anonymous, protect, others, keep) {
+    this.connectionTabBundle.properties["username"].setValue(username);
+    this.connectionTabBundle.properties["password"].setValue(password);
+    this.connectionTabBundle.properties["anonymous"].setValue(anonymous);
+    this.connectionTabBundle.properties["others"].setValue(others);
+    this.connectionTabBundle.properties["protect"].setValue(protect);
+    this.connectionTabBundle.properties["keep"].setValue(keep);
+  }
 
   static getInstance()
   {
@@ -1201,13 +1211,16 @@ class BDKanvas extends CanvasController
       password: Utils.MD5(this.connectionTabBundle.properties["password"].getValue()),
       anonymous: this.connectionTabBundle.properties["anonymous"].getValue(),
       others: this.connectionTabBundle.properties["others"].getValue(),
-      protect: this.connectionTabBundle.properties["protect"].getValue()
+      protect: this.connectionTabBundle.properties["protect"].getValue(),
+      keep: this.connectionTabBundle.properties["keep"].getValue(),
+      plainPassword: this.connectionTabBundle.properties["password"].getValue()
     }
     this.client.processEvent(SMC_EVENT_READY, data);
   }
 
   disconnectSession(){
     this.client.processEvent(SMC_EVENT_DISCONNECT, null);
+    this.client.unsetCookies();
   }
 
   changedConnectionOptions(){
