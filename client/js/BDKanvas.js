@@ -971,9 +971,11 @@ class BDKanvas extends CanvasController
       version: BDKANVAS_VERSION
     };
     var contents = JSON.stringify(data);
+    var blob = new Blob([contents], {type: "application/json"});
     var download = document.createElement("a");
-    download.setAttribute('href', 'data:text/plain;charset:utf-8,' + encodeURIComponent(contents));
-    download.setAttribute('download', filename);
+    var url = URL.createObjectURL(blob);
+    download.href = url;
+    download.download = filename;
     document.body.appendChild(download);
     download.click();
     document.body.removeChild(download);
