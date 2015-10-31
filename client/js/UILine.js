@@ -10,9 +10,8 @@ class UILine extends UIElement
     this.points = [];
     if (lineData !== null)
     {
-      for (var i = 0; i < lineData.points.length; i++) {
-        this.addPoint(new Point(lineData.points[i].x,lineData.points[i].y));
-      }
+      this.points.push(new Point(lineData.points[0].x,lineData.points[0].y));
+      this.points.push(new Point(lineData.points[1].x,lineData.points[1].y));
     }
   }
 
