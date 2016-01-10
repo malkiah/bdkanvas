@@ -10,7 +10,7 @@ class ActionCommitCircle extends Action {
   performAction()
   {
     super.performAction();
-    BDKanvasInstance.drawables[this.circle.uuid] = this.circle;
+    BDKanvasInstance.addDrawable(this.circle);
     if (this.local)
     {
       var data = {
@@ -24,14 +24,14 @@ class ActionCommitCircle extends Action {
 
   redoAction()
   {
-    BDKanvasInstance.drawables[this.circle.uuid] = this.circle;
+    BDKanvasInstance.addDrawable(this.circle);
   }
 
   undoAction()
   {
     if (this.circle.uuid in BDKanvasInstance.drawables)
     {
-      delete BDKanvasInstance.drawables[this.circle.uuid];
+      BDKanvasInstance.deleteDrawable(this.circle.uuid);
     }
   }
 }

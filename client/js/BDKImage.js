@@ -23,6 +23,7 @@ class BDKImage extends BDKDrawable
 
   setImage(img){
     this.image = img;
+    BDKanvas.getInstance().dirty = true;
   }
 
   resetUUID(){
@@ -45,6 +46,7 @@ class BDKImage extends BDKDrawable
 
   unserializeGeometry(gData){
     this.geometry = new UIRect(gData);
+    BDKanvas.getInstance().dirty = true;
   }
 
   draw(context) {
@@ -83,6 +85,7 @@ class BDKImage extends BDKDrawable
 
   move(dX,dY){
     this.geometry.move(dX,dY);
+    BDKanvas.getInstance().dirty = true;
   }
 
   getGeometry(){
@@ -91,6 +94,7 @@ class BDKImage extends BDKDrawable
 
   scaleOffset(offset){
     this.geometry.scaleOffset(offset);
+    BDKanvas.getInstance().dirty = true;
   }
 
   containsPoint(p){
@@ -103,6 +107,7 @@ class BDKImage extends BDKDrawable
         this.maintainAspect = val;
         break;
     }
+    BDKanvas.getInstance().dirty = true;
   }
 
   getPropertyValue(pname){

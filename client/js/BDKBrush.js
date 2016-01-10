@@ -53,6 +53,7 @@ class BDKBrush extends BDKDrawable
 
   unserializeGeometry(gData){
     this.geometry = new UILine(gData);
+    BDKanvas.getInstance().dirty = true;
   }
 
   draw(context)
@@ -108,6 +109,7 @@ class BDKBrush extends BDKDrawable
 
   move(dX,dY){
     this.geometry.move(dX,dY);
+    BDKanvas.getInstance().dirty = true;
   }
 
   getGeometry(){
@@ -116,6 +118,7 @@ class BDKBrush extends BDKDrawable
 
   scaleOffset(offset){
     this.geometry.scaleOffset(offset);
+    BDKanvas.getInstance().dirty = true;
   }
 
   containsPoint(p){
@@ -143,6 +146,7 @@ class BDKBrush extends BDKDrawable
         this.fillColor = val;
         break;
     }
+    BDKanvas.getInstance().dirty = true;
   }
 
   getPropertyValue(pname){
@@ -181,4 +185,8 @@ class BDKBrush extends BDKDrawable
     ];
   }
 
+  addPoint(point){
+    this.geometry.addPoint(point);
+    BDKanvas.getInstance().dirty = true;
+  }
 }

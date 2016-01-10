@@ -13,7 +13,7 @@ class ActionPasteDrawables extends Action {
   performAction(){
     super.performAction();
     for (var i = 0; i < this.drawables.length; i++) {
-      BDKanvasInstance.drawables[this.drawables[i].uuid] = this.drawables[i];
+      BDKanvasInstance.addDrawable(this.drawables[i]);
     }
 
     if (this.local)
@@ -35,7 +35,7 @@ class ActionPasteDrawables extends Action {
 
   redoAction(){
     for (var i = 0; i < this.drawables.length; i++) {
-      BDKanvasInstance.drawables[this.drawables[i].uuid] = this.drawables[i];
+      BDKanvasInstance.addDrawable(this.drawables[i]);
     }
     if (this.local)
     {
@@ -46,7 +46,7 @@ class ActionPasteDrawables extends Action {
 
   undoAction(){
     for (var i = 0; i < this.drawables.length; i++) {
-      delete BDKanvasInstance.drawables[this.drawables[i].uuid];
+      BDKanvasInstance.deleteDrawable(this.drawables[i].uuid);
     }
     if (this.local){
       BDKanvasInstance.setSelection(this.prevSelection);

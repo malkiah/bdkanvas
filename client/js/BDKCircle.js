@@ -46,14 +46,17 @@ class BDKCircle extends BDKDrawable {
 
   unserializeGeometry(gData){
     this.geometry = new UICircle(gData);
+    BDKanvas.getInstance().dirty = true;
   }
 
   setCenter(p){
     this.geometry.setPos(p.x, p.y);
+    BDKanvas.getInstance().dirty = true;
   }
 
   setRadius(r){
     this.geometry.resize(r);
+    BDKanvas.getInstance().dirty = true;
   }
 
   draw(context){
@@ -91,6 +94,7 @@ class BDKCircle extends BDKDrawable {
 
   move(dX,dY){
     this.geometry.move(dX,dY);
+    BDKanvas.getInstance().dirty = true;
   }
 
   getGeometry(){
@@ -99,6 +103,7 @@ class BDKCircle extends BDKDrawable {
 
   scaleOffset(offset){
     this.geometry.scaleOffset(offset);
+    BDKanvas.getInstance().dirty = true;
   }
 
   containsPoint(p){
@@ -123,6 +128,7 @@ class BDKCircle extends BDKDrawable {
         this.fillColor = val;
         break;
     }
+    BDKanvas.getInstance().dirty = true;
   }
 
   getPropertyValue(pname){

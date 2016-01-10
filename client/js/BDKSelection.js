@@ -14,6 +14,10 @@ class BDKSelection {
     // Redefine
   }
 
+  resize(w,h){
+    // Redefine
+  }
+
   move(dX, dY){
     this.geometry.move(dX, dY);
     for (var i = 0; i < this.selection.length; i++) {
@@ -48,6 +52,7 @@ class BDKSelection {
   setSelection(s){
     this.selection = s;
     this.notifySelectionListeners();
+    BDKanvas.getInstance().dirty = true;
   }
 
   selectDrawables(){

@@ -15,6 +15,7 @@ class ActionChangeConfig extends Action {
     BDKanvas.getInstance().setConfigValue("lineTextColor",data.lineTextColor);
     BDKanvas.getInstance().setConfigValue("backgroundColor",data.backgroundColor);
     BDKanvas.getInstance().setConfigValue("columnNumber",data.columnNumber);
+    BDKanvas.getInstance().dirty = true;
   }
 
   performAction(){

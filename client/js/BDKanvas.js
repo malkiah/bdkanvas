@@ -62,6 +62,17 @@ class BDKanvas extends CanvasController
     this.client.obtainKeepCookies();
 
     setInterval(BDKanvas.timedRedraw,50,this);
+    this.dirty = true;
+  }
+
+  addDrawable(d){
+    this.drawables[d.uuid] = d;
+    this.dirty = true;
+  }
+
+  deleteDrawable(uuid){
+    delete BDKanvasInstance.drawables[uuid];
+    this.dirty = true;
   }
 
   setSelection(s){
@@ -69,6 +80,7 @@ class BDKanvas extends CanvasController
     if (this.selection === null){
       this.selectionTab.deleteSection("selection");
     }
+    this.dirty = true;
   }
 
   createConfigTab(){
@@ -129,6 +141,7 @@ class BDKanvas extends CanvasController
       var action = new ActionChangeConfig(oldConfig, this.configuration, true, null);
       action.performAction();
     }
+    this.dirty = true;
   }
 
   createBrushTab(){
@@ -290,16 +303,20 @@ class BDKanvas extends CanvasController
   }
 
   redraw() {
-    this.resize();
-    this.clear();
-    this.drawLines();
-    for (var drawable in this.drawables) {
-      if (this.drawables.hasOwnProperty(drawable)) {
-        this.drawables[drawable].draw(this.context);
+    if (this.dirty)
+    {
+      this.resize();
+      this.clear();
+      this.drawLines();
+      for (var drawable in this.drawables) {
+        if (this.drawables.hasOwnProperty(drawable)) {
+          this.drawables[drawable].draw(this.context);
+        }
       }
+      this.drawselection();
+      this.drawLog();
+      this.dirty = false;
     }
-    this.drawselection();
-    this.drawLog();
   }
 
   drawselection() {
@@ -658,8 +675,8 @@ class BDKanvas extends CanvasController
     if ((x > 0) && (y > 0))
     {
       var line = new BDKBrush(this.context, null);
-      this.drawables[line.uuid] = line;
-      if (line.geometry.addPoint(this.canvasToInnerPoint(new Point(x, y))))
+      this.addDrawable(line);
+      if (line.addPoint(this.canvasToInnerPoint(new Point(x, y))))
       {
         //this.logDebug("Draw begin (X:" + x + ",Y:" + y + ")");
       }
@@ -676,7 +693,7 @@ class BDKanvas extends CanvasController
       var p = this.canvasToInnerPoint(new Point(x, y));
       this.offset = new OffsetController(p.x,p.y,0,0);
       var line = new BDKLine(this.context, null);
-      this.drawables[line.uuid] = line;
+      this.addDrawable(line);
       line.setPoints(p,p);
       this.current = line;
       result = true;
@@ -691,7 +708,7 @@ class BDKanvas extends CanvasController
       var p = this.canvasToInnerPoint(new Point(x, y));
       this.offset = new OffsetController(p.x,p.y,0,0);
       var circle = new BDKCircle(this.context, null);
-      this.drawables[circle.uuid] = circle;
+      this.addDrawable(circle);
       circle.setCenter(p);
       this.current = circle;
       result = true;
@@ -717,6 +734,7 @@ class BDKanvas extends CanvasController
       var offsetX = -dpos.dx * this.getZoom();
       var offsetY = -dpos.dy * this.getZoom();
       this.moveOffset(offsetX, offsetY);
+      this.dirty = true;
     }
   }
 
@@ -725,7 +743,7 @@ class BDKanvas extends CanvasController
     {
       if (this.current instanceof BDKBrush)
       {
-        this.current.geometry.addPoint(this.canvasToInnerPoint(new Point(x, y)));
+        this.current.addPoint(this.canvasToInnerPoint(new Point(x, y)));
       }
     }
   }
@@ -779,6 +797,7 @@ class BDKanvas extends CanvasController
 
   setCurrent(current) {
     this.current = current;
+    this.dirty = true;
   }
 
   getMoveAmount() {
@@ -919,6 +938,7 @@ class BDKanvas extends CanvasController
       var scrollX = innerP.x - innerM.x;
       var scrollY = innerP.y - innerM.y;
       this.moveOffset(scrollX,scrollY);
+      this.dirty = true;
     }
   }
 
@@ -932,6 +952,7 @@ class BDKanvas extends CanvasController
       var scrollX = innerP.x - innerM.x;
       var scrollY = innerP.y - innerM.y;
       this.moveOffset(scrollX,scrollY);
+      this.dirty = true;
     }
   }
 
@@ -987,7 +1008,7 @@ class BDKanvas extends CanvasController
         var ddata = data.drawables[uuid];
         var evalStr = ddata.drawableType + ".unserialize" + ddata.drawableVersion + "(ddata);";
         var drawable = eval(evalStr);
-        this.drawables[drawable.uuid] = drawable;
+        this.addDrawable(drawable);
       }
     }
     this.configuration.lineGap = data.config.lineGap;
@@ -997,6 +1018,7 @@ class BDKanvas extends CanvasController
     this.configuration.columnNumber = data.config.columnNumber;
 
     this.saveDialog.setFileName(data.filename);
+    this.dirty = true;
   }
 
   load(data, local)
@@ -1025,13 +1047,14 @@ class BDKanvas extends CanvasController
     this.selection.geometry.setPos(pos.x, pos.y);
     this.selection.geometry.resize(size.width, size.height);
     this.selection.selectDrawables();
+    this.dirty = true;
   }
 
   changeRectSelection(x,y){
     var ip = this.canvasToInnerPoint(new Point(x, y))
     this.offset.moveTo(ip.x, ip.y);
     var size = this.offset.getSize();
-    this.selection.geometry.resize(size.width, size.height);
+    this.selection.resize(size.width, size.height);
   }
 
   beginRectSelectionMove(x,y) {
@@ -1171,7 +1194,7 @@ class BDKanvas extends CanvasController
     var ip = this.canvasToInnerPoint(new Point(x, y))
     this.offset.moveTo(ip.x, ip.y);
     var size = this.offset.getSize();
-    this.selection.geometry.resize(size.width, size.height);
+    this.selection.resize(size.width, size.height);
     this.selection.scaleSelectedOffset(this.offset);
   }
 

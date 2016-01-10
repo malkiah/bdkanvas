@@ -51,11 +51,13 @@ class BDKLine extends BDKDrawable {
 
   unserializeGeometry(gData){
     this.geometry = new UILine(gData);
+    BDKanvas.getInstance().dirty = true;
   }
 
   setPoints(p1,p2){
     this.geometry.points[0] = p1;
     this.geometry.points[1] = p2;
+    BDKanvas.getInstance().dirty = true;
   }
 
   draw(context)
@@ -137,6 +139,7 @@ class BDKLine extends BDKDrawable {
 
   move(dX,dY){
     this.geometry.move(dX,dY);
+    BDKanvas.getInstance().dirty = true;
   }
 
   getGeometry(){
@@ -169,6 +172,7 @@ class BDKLine extends BDKDrawable {
         this.arrowEnd = val;
         break;
     }
+    BDKanvas.getInstance().dirty = true;
   }
 
   getPropertyValue(pname){
@@ -202,5 +206,4 @@ class BDKLine extends BDKDrawable {
       {type: "PropertyBoolean", name: "arrowend", desc: "Final arrow", defaultVal: false}
     ];
   }
-
 }

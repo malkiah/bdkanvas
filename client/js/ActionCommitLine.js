@@ -10,7 +10,7 @@ class ActionCommitLine extends Action {
   performAction()
   {
     super.performAction();
-    BDKanvasInstance.drawables[this.line.uuid] = this.line;
+    BDKanvasInstance.addDrawable(this.line);
     if (this.local)
     {
       var data = {
@@ -24,14 +24,14 @@ class ActionCommitLine extends Action {
 
   redoAction()
   {
-    BDKanvasInstance.drawables[this.line.uuid] = this.line;
+    BDKanvasInstance.addDrawable(this.line);
   }
 
   undoAction()
   {
     if (this.line.uuid in BDKanvasInstance.drawables)
     {
-      delete BDKanvasInstance.drawables[this.line.uuid];
+      BDKanvasInstance.deleteDrawable(this.line.uuid);
     }
   }
 }

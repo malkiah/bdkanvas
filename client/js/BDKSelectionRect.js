@@ -29,6 +29,11 @@ class BDKSelectionRect extends BDKSelection {
     this.setSelection(sel);
   }
 
+  resize(w,h){
+    this.geometry.resize(w,h);
+    BDKanvas.getInstance().dirty = true;
+  }
+
   pointInScaleRect(p){
     var minX =  this.geometry.x + this.geometry.width;
     var minY =  this.geometry.y + this.geometry.height;
@@ -69,5 +74,6 @@ class BDKSelectionRect extends BDKSelection {
       this.geometry.setPos(minX, minY);
       this.geometry.resize(maxX - minX, maxY - minY);
     }
+    BDKanvas.getInstance().dirty = true;
   }
 }

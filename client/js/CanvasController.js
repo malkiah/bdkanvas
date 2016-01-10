@@ -27,6 +27,7 @@ class CanvasController
     this.stateMachine = null;
     this.scrollX = 0;
     this.scrollY = 0;
+    this.dirty = true;
   }
 
   logDebug(msg)
@@ -42,6 +43,7 @@ class CanvasController
   moveDown()
   {
     this.scrollY += this.getMoveAmount();
+    this.dirty = true;
   }
 
   moveUp()
@@ -51,11 +53,13 @@ class CanvasController
     {
       this.scrollY = 0;
     }
+    this.dirty = true;
   }
 
   moveRight()
   {
     this.scrollX += this.getMoveAmount();
+    this.dirty = true;
   }
 
   moveLeft()
@@ -65,12 +69,14 @@ class CanvasController
     {
       this.scrollX = 0;
     }
+    this.dirty = true;
   }
 
   setScroll(x,y){
     this.scrollX = 0;
     this.scrollY = 0;
     this.moveOffset(x,y);
+    this.dirty = true;
   }
 
   moveOffset(x,y)
@@ -90,6 +96,7 @@ class CanvasController
       this.scrollY = 0;
     }
     //this.logDebug("Scroll X: " + this.scrollX + " - Scroll Y: " + this.scrollY);
+    this.dirty = true;
   }
 
   getMaxX()
@@ -136,6 +143,7 @@ class CanvasController
       this.canvas.height = H;
       //this.logDebug("New canvas size: " + W + "x" + H);
     }
+    this.dirty = true;
   }
 
   copy(){

@@ -21,22 +21,27 @@ class ActionDeleteDrawables extends Action {
     }
     for (var i = 0; i < this.drawablesUUID.length; i++) {
       this.drawables.push(BDKanvasInstance.drawables[this.drawablesUUID[i]]);
-      delete BDKanvasInstance.drawables[this.drawablesUUID[i]];
+      BDKanvasInstance.deleteDrawable(this.drawablesUUID[i]);
     }
+    BDKanvasInstance.setSelection(null);
   }
 
   redoAction()
   {
     for (var i = 0; i < this.drawablesUUID.length; i++) {
-      delete BDKanvasInstance.drawables[this.drawablesUUID[i]];
+      BDKanvasInstance.deleteDrawable(this.drawablesUUID[i]);
     }
+    BDKanvasInstance.setSelection(null);
   }
 
   undoAction()
   {
     for (var i = 0; i < this.drawables.length; i++) {
-      BDKanvasInstance.drawables[this.drawables[i].uuid] = this.drawables[i];
+      BDKanvasInstance.addDrawable(this.drawables[i]);
     }
+    var s = new BDKSelectionRect(0,0,0,0);
+    s.setSelection(this.drawables);
+    BDKanvasInstance.setSelection(s);
   }
 
 }

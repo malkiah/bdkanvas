@@ -12,7 +12,7 @@ class ActionCommitImage extends Action {
   performAction()
   {
     super.performAction();
-    BDKanvasInstance.drawables[this.image.uuid] = this.image;
+    BDKanvasInstance.addDrawable(this.image);
     if (this.local)
     {
       BDKanvasInstance.setSelection(this.selection);
@@ -28,14 +28,14 @@ class ActionCommitImage extends Action {
 
   redoAction()
   {
-    BDKanvasInstance.drawables[this.image.uuid] = this.image;
+    BDKanvasInstance.addDrawable(this.image);
   }
 
   undoAction()
   {
     if (this.image.uuid in BDKanvasInstance.drawables)
     {
-      delete BDKanvasInstance.drawables[this.image.uuid];
+      BDKanvasInstance.deleteDrawable(this.image.uuid);
     }
   }
 }
