@@ -676,10 +676,15 @@ class BDKanvas extends CanvasController
     {
       var line = new BDKBrush(this.context, null);
       this.addDrawable(line);
-      if (line.addPoint(this.canvasToInnerPoint(new Point(x, y))))
+      var point = this.canvasToInnerPoint(new Point(x, y));
+      if (line.addPoint(point))
       {
-        //this.logDebug("Draw begin (X:" + x + ",Y:" + y + ")");
       }
+      var data = {
+        action: "beginDrawingBrush",
+        uuid: line.uuid
+      };
+      BDKanvasInstance.client.processEvent(SMC_EVENT_SEND_ACTION, data);
       this.current = line;
       result = true;
     }
@@ -743,7 +748,14 @@ class BDKanvas extends CanvasController
     {
       if (this.current instanceof BDKBrush)
       {
-        this.current.addPoint(this.canvasToInnerPoint(new Point(x, y)));
+        var point = this.canvasToInnerPoint(new Point(x, y))
+        this.current.addPoint(point);
+        var data = {
+          action: "addBrushPoint",
+          uuid: this.current.uuid,
+          point: point
+        };
+        BDKanvasInstance.client.processEvent(SMC_EVENT_SEND_ACTION, data);
       }
     }
   }

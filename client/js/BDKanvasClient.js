@@ -111,9 +111,17 @@ class BDKanvasClient
 
   message(data) {
     switch (data.actionType) {
-      case 'drawbrush':
-        var line = new BDKBrush(BDKanvasInstance.context, data.lineData);
-        var action = new ActionCommitBrush(line, false, data.actionUUID);
+      case 'begindrawbrush':
+        var brush = new BDKBrush(BDKanvasInstance.context, data.lineData);
+        BDKanvasInstance.addDrawable(brush);
+        break;
+      case 'addbrushpoint':
+        var point = new Point(data.pointData.x, data.pointData.y);
+        BDKanvasInstance.getDrawable(data.brushUUID).addPoint(point);
+        break;
+      case 'commitbrush':
+        var brush = BDKanvasInstance.getDrawable(data.brushUUID);
+        var action = new ActionCommitBrush(brush, false, data.actionUUID);
         action.performAction();
         break;
       case 'drawline':
@@ -178,16 +186,44 @@ class BDKanvasClient
     }
   }
 
-  sendBrush(id, actUUID) {
+  sendCommitBrush(id, actUUID) {
+    let obj = this;
+    var msg = {
+      type: 'sync',
+      cid: obj.cid,
+      sid: obj.sid,
+      actionType: 'commitbrush',
+      brushUUID: id,
+      actionUUID: actUUID
+    };
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
+  sendBeginDrawingBrush(id) {
     let obj = this;
     var lineData = BDKanvas.getInstance().getDrawable(id).serialize();
     var msg = {
       type: 'sync',
       cid: obj.cid,
       sid: obj.sid,
-      actionType: 'drawbrush',
-      lineData: lineData,
-      actionUUID: actUUID
+      actionType: 'begindrawbrush',
+      lineData: lineData
+    };
+
+    this.ws.send(JSON.stringify(msg));
+  }
+
+  sendAddBrushPoint(id, point) {
+    let obj = this;
+    var pointData = point.serialize();
+    var msg = {
+      type: 'sync',
+      cid: obj.cid,
+      sid: obj.sid,
+      actionType: 'addbrushpoint',
+      brushUUID: id,
+      pointData: pointData
     };
 
     this.ws.send(JSON.stringify(msg));
@@ -240,8 +276,14 @@ class BDKanvasClient
 
   sendAction(data) {
     switch (data.action) {
-      case 'endDrawingBrush':
-        this.sendBrush(data.uuid, data.actionUUID);
+      case 'beginDrawingBrush':
+        this.sendBeginDrawingBrush(data.uuid);
+        break;
+      case 'addBrushPoint':
+        this.sendAddBrushPoint(data.uuid, data.point);
+        break;
+      case 'commitBrush':
+        this.sendCommitBrush(data.uuid, data.actionUUID);
         break;
       case 'endDrawingLine':
         this.sendLine(data.uuid, data.actionUUID);

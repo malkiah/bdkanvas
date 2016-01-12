@@ -10,11 +10,10 @@ class ActionCommitBrush extends Action {
   performAction()
   {
     super.performAction();
-    BDKanvasInstance.addDrawable(this.brush);
     if (this.local)
     {
       var data = {
-        action: "endDrawingBrush",
+        action: "commitBrush",
         uuid: this.brush.uuid,
         actionUUID: this.uuid
       };
