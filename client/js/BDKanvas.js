@@ -61,7 +61,7 @@ class BDKanvas extends CanvasController
 
     this.client.obtainKeepCookies();
 
-    setInterval(BDKanvas.timedRedraw,50,this);
+    setTimeout(BDKanvas.timedRedraw,50,this);
     this.dirty = true;
   }
 
@@ -302,15 +302,26 @@ class BDKanvas extends CanvasController
     this.addInfoButtons();
   }
 
+  getVisibleRectangle() {
+    var ini = this.canvasToInnerPoint(new Point(0,0));
+    var end = this.canvasToInnerPoint(new Point(this.canvas.width, this.canvas.height));
+
+    return new UIRect({x: ini.x, y: ini.y, width: end.x, height: end.y});
+  }
+
   redraw() {
     if (this.dirty)
     {
       this.resize();
       this.clear();
       this.drawLines();
-      for (var drawable in this.drawables) {
-        if (this.drawables.hasOwnProperty(drawable)) {
-          this.drawables[drawable].draw(this.context);
+      var visibleRect = this.getVisibleRectangle();
+      for (var drawableUUID in this.drawables) {
+        if (this.drawables.hasOwnProperty(drawableUUID)) {
+          var drawable = this.drawables[drawableUUID];
+          if (visibleRect.containsGeometry(drawable.getGeometry())){
+            drawable.draw(this.context);
+          }
         }
       }
       this.drawselection();
@@ -968,8 +979,9 @@ class BDKanvas extends CanvasController
     }
   }
 
-  static timedRedraw(kanvas) {
-    kanvas.redraw();
+  static timedRedraw() {
+    BDKanvas.getInstance().redraw();
+    setTimeout(BDKanvas.timedRedraw,50,this);
   }
 
   actionStackChanged(stack, data) {
